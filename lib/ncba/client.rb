@@ -12,6 +12,7 @@ module Ncba
     def initialize(key:, secret:, adapter: Faraday.default_adapter)
       @key = key
       @secret = secret
+      @adapter = adapter
     end
 
     def open_account(**args)
