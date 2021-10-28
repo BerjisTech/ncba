@@ -9,7 +9,7 @@ module Ncba
   class Client
     attr_reader :key, :secret, :adapter
 
-    def initialize(key:, secret:, adapter: Faraday.default_adapter) # rubocop:disable Metrics/ParameterLists
+    def initialize(key:, secret:, adapter: Faraday.default_adapter)
       @key = key
       @secret = secret
     end

@@ -6,6 +6,6 @@ RSpec.describe Ncba do
   end
 
   it "does something useful" do
-    expect(Ncba.Resource).to eq(true)
+    expect(Ncba::Client.new(key: "ke123", secret: "SECRET")).not_to be nil
   end
 end

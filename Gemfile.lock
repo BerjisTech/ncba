@@ -27,6 +27,8 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
+    faraday_middleware (1.2.0)
+      faraday (~> 1.0)
     multipart-post (2.1.1)
     parallel (1.21.0)
     parser (3.0.2.0)
@@ -68,6 +70,7 @@ PLATFORMS
 
 DEPENDENCIES
   faraday
+  faraday_middleware
   ncba!
   rake (~> 13.0)
   rspec (~> 3.0)
