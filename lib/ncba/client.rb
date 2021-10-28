@@ -7,15 +7,11 @@ require "faraday_middleware"
 module Ncba
   # Client
   class Client
-    attr_reader :key, :secret, :env, :adapter, :shortcode, :pass_key
+    attr_reader :key, :secret, :adapter
 
-    def initialize(key:, secret:, shortcode: nil, pass_key: nil, env: "production", adapter: Faraday.default_adapter) # rubocop:disable Metrics/ParameterLists
+    def initialize(key:, secret:, adapter: Faraday.default_adapter) # rubocop:disable Metrics/ParameterLists
       @key = key
       @secret = secret
-      @env = env
-      @adapter = adapter
-      @pass_key = pass_key
-      @shortcode = shortcode
     end
 
     def open_account(**args)
@@ -40,17 +36,13 @@ module Ncba
 
     def connection(basic_auth: false)
       @connection ||= Faraday.new do |conn|
-        conn.url_prefix = "https://#{subdomain}.safaricom.co.ke"
+        conn.url_prefix = "http://developers.cbagroup.com:4040"
         conn.request :json
         conn.response :json, content_type: "application/json"
         conn.adapter adapter
         conn.request :basic_auth, key, secret if basic_auth
         conn.request :authorization, :Bearer, auth.access_token unless basic_auth
       end
-    end
-
-    def subdomain
-      env == "production" ? "api" : "sandbox"
     end
   end
 end
