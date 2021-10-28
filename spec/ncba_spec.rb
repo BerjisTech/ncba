@@ -6,6 +6,6 @@ RSpec.describe Ncba do
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(Ncba.Resource).to eq(true)
   end
 end
