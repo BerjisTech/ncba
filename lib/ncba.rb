@@ -12,12 +12,11 @@ module Ncba
   autoload :Resource, "ncba/resource"
   autoload :SecurityCred, "ncba/securitycred"
 
-  autoload :Register, "ncba/resources/register"
-  autoload :Token, "ncba/resources/token"
-  autoload :Stk, "ncba/resources/stk"
-  autoload :Payout, "ncba/resources/payout"
-  autoload :Status, "ncba/resources/status"
-  autoload :Balance, "ncba/resources/balance"
+  autoload :AccountOpening, "ncba/resources/account_opening"
+  autoload :CreditDetails, "ncba/resources/credit_details"
+  autoload :CreditTransfer, "ncba/resources/credit_transfer"
+  autoload :MpesaPhoneNumberValidation, "ncba/resources/mpesa_phone_number_validation"
+  autoload :TransactionQuery, "ncba/resources/transaction_query"
 
   autoload :Instance, "ncba/objects/instace"
 end

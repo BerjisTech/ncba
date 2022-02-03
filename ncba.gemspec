@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = "ncba"
   spec.version       = Ncba::VERSION
   spec.authors       = ["Prometheus"]
-  spec.email         = ["berjistechnologies@gmail.com"]
+  spec.email         = ["info@berjis.tech"]
 
   spec.summary       = "NCBA API"
   spec.description   = "NCBA API"
