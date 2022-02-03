@@ -13,13 +13,17 @@ gem 'ncba'
 ```
 
 And then execute:
+
 ```
     $ bundle install
 ```
+
 Or install it yourself as:
+
 ```
     $ gem install ncba
 ```
+
 ## Usage
 
 ```ruby
