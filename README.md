@@ -105,27 +105,27 @@ ncba_client.credit_details(
 
 ```ruby
 ncba_client.credit_transfer(
-    bank_code: "",
-    bank_swift_code: "",
-    branch_code: "",
-    beneficiary_account_name: "",
-    country: "",
-    transaction_type: "",
-    reference: "",
-    currency: "",
-    account: "",
-    amount: "",
-    narration: "",
-    transaction_date: "",
-    validation_id: "",
-    sender_name: "",
-    purpose_of_payment: "",
-    sender_principle_activity: "",
-    sender_address: "",
-    receiver_address: "",
-    receiver_id: "",
-    sender_id: "",
-    beneficiary_name: ""
+    bank_code: '', # Bank Code (For ALL MWallets use 99), (For MPesa use 16 if RTGS), (For Pesalink 404)
+      bank_swift_code: '',
+      branch_code: '', # Branch code ( For ALL Mwallets use 002 )
+      beneficiary_account_name: '',
+      country: 'Kenya', # Kenya, Uganda, Tanzania (Case Sensitive)
+      transaction_type: '', # Internal, Eft, RTGS, Pesalink, Mpesa, HalotelTz, AirtelTz, ZantelTz, TigoTz, VodacomTz
+      reference: '',
+      currency: '', # KES, TZS, UGX
+      account: '', # 254XXXXXX (or your country code) for mobile, account number if bank
+      amount: '',
+      narration: '',
+      transaction_date: '',
+      validation_id: '', # Validation from mpesa_verification
+      sender_name: '',
+      purpose_of_payment: '',
+      sender_principle_activity: '',
+      sender_address: '',
+      receiver_address: '',
+      receiver_id: '',
+      sender_id: '',
+      beneficiary_name: ''
 )
 ```
 
