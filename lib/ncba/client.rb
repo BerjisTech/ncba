@@ -19,7 +19,7 @@ module Ncba
       }
     end
 
-    def open_account(**args)
+    def account_opening(**args)
       AccountOpening.new(self, args).call
     end
 
