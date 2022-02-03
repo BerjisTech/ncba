@@ -15,5 +15,5 @@ gem "faraday"
 gem "faraday_middleware"
 
 group :development, :test do
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 end
