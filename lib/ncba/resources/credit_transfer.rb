@@ -8,7 +8,7 @@ module Ncba
     PATH = "/api/CreditTransfer"
 
     def call
-      Object.new post_request(url: PATH, body: body).body
+      post_request(url: PATH, body: body).body
     end
 
     def body
