@@ -38,7 +38,7 @@ NCBA accepts almost all variables as string except for `amount` which is float.
 ## Ncba:: Client:: AccountOpening
 
 ```ruby
-client.account_opening(
+ncba_client.account_opening(
     bank_code: "",
     bank_swift_code: "",
     branch_code: "",
@@ -66,7 +66,7 @@ client.account_opening(
 ## Ncba:: Client:: CreditDetails
 
 ```ruby
-client.credit_details(
+ncba_client.credit_details(
     bizpawa_id: "",
     turnover_ratio: "",
     saas_payment_rate: "",
@@ -85,7 +85,7 @@ client.credit_details(
 ## Ncba:: Client:: CreditTransfer
 
 ```ruby
-client.credit_transfer(
+ncba_client.credit_transfer(
     bank_code: "",
     bank_swift_code: "",
     branch_code: "",
@@ -113,7 +113,7 @@ client.credit_transfer(
 ## Ncba:: Client:: MpesaPhoneNumberValidation
 
 ```ruby
-client.mpesa_phone_number_validation(
+ncba_client.mpesa_phone_number_validation(
     mobile_number: "",
     reference: ""
 )
@@ -122,7 +122,7 @@ client.mpesa_phone_number_validation(
 ## Ncba:: Client:: TransactionQuery
 
 ```ruby
-client.transaction_query(
+ncba_client.transaction_query(
     country: "",
     reference_number: ""
 )
