@@ -5,12 +5,10 @@ module Ncba
   class Resource
     attr_reader :client, :args
 
-    
-    
     def initialize(client, args = {})
       @client = client
       @args = args
-      @headers = {'ApiKey': client.api_key, 'APIUser': client.api_user}
+      @headers = { 'ApiKey': client.api_key, 'APIUser': client.api_user }
     end
 
     def get_request(url:, params: {}, headers: {})
@@ -21,7 +19,7 @@ module Ncba
       handle_response client.connection.post(url, body, @headers)
     end
 
-    def handle_response(response) # rubocop:disable Metrics/MethodLength
+    def handle_response(response)
       # case response.status
       # when 400
       #   raise Error, "Your request was malformed. #{response.body["errorMessage"]}"
