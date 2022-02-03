@@ -4,7 +4,7 @@
 # rubocop:disable Metrics/MethodLength
 module Ncba
   # CreditTransfer
-  class CreditTransfer
+  class CreditTransfer < Resource
     PATH = "/api/CreditTransfer"
 
     def call

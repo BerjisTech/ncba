@@ -7,12 +7,16 @@ require "faraday_middleware"
 module Ncba
   # Client
   class Client
-    attr_reader :key, :secret, :adapter
+    attr_reader :api_user, :api_key, :adapter
 
-    def initialize(key:, secret:, adapter: Faraday.default_adapter)
-      @key = key
-      @secret = secret
+    def initialize(api_user:, api_key:, adapter: Faraday.default_adapter)
+      @api_key = api_key # ApiKey
+      @api_user = api_user # APIUser
       @adapter = adapter
+      @header = {
+        'ApiKey': @api_key,
+        'APIUser': @api_user
+      }
     end
 
     def open_account(**args)
@@ -35,14 +39,12 @@ module Ncba
       TransactionQuery.new(self, args).call
     end
 
-    def connection(basic_auth: false)
+    def connection
       @connection ||= Faraday.new do |conn|
         conn.url_prefix = "http://developers.cbagroup.com:4040"
         conn.request :json
         conn.response :json, content_type: "application/json"
         conn.adapter adapter
-        conn.request :basic_auth, key, secret if basic_auth
-        conn.request :authorization, :Bearer, auth.access_token unless basic_auth
       end
     end
   end

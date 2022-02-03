@@ -11,5 +11,10 @@ require "ncba"
 # require "pry"
 # Pry.start
 
+client = Ncba::Client.new(
+  api_user: "berjis",
+  api_key: "ke123"
+)
+
 require "irb"
 IRB.start(__FILE__)

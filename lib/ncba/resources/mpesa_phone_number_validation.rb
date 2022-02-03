@@ -2,7 +2,7 @@
 
 module Ncba
   # MpesaPhoneNumberValidation
-  class MpesaPhoneNumberValidation
+  class MpesaPhoneNumberValidation < Resource
     PATH = "/api/MpesaPhoneNumberValidation"
 
     def call

@@ -2,7 +2,7 @@
 
 module Ncba
   # TransactionQuery
-  class TransactionQuery
+  class TransactionQuery < Resource
     PATH = "/api/TransactionQuery"
 
     def call
