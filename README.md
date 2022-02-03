@@ -48,7 +48,7 @@ ncba_client.account_opening(
     reference: "",
     currency: "",
     account: "",
-    to_: "",
+    amount: "",
     narration: "",
     transaction_date: "",
     validation_id: "",
