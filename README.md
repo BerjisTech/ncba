@@ -77,7 +77,8 @@ ncba_client.account_opening(
     stakeholder_postal_code: "",
     stakeholder_country: "",
     stakeholder_id_type: "",
-    stakeholder_id_number: ""
+    stakeholder_id_number: "",
+    brn:""
 )
 ```
 
