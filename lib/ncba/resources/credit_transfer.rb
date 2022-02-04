@@ -5,7 +5,7 @@
 module Ncba
   # CreditTransfer
   class CreditTransfer < Resource
-    PATH = "/api/CreditTransfer"
+    PATH = '/api/CreditTransfer'
 
     def call
       post_request(url: PATH, body: body).body

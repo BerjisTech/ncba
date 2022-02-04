@@ -3,7 +3,7 @@
 module Ncba
   # TransactionQuery
   class TransactionQuery < Resource
-    PATH = "/api/TransactionQuery"
+    PATH = '/api/TransactionQuery'
 
     def call
       post_request(url: PATH, body: body).body

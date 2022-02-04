@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "faraday"
-require "faraday_middleware"
+require 'faraday'
+require 'faraday_middleware'
 
 # Ncba
 module Ncba
@@ -41,9 +41,9 @@ module Ncba
 
     def connection
       @connection ||= Faraday.new do |conn|
-        conn.url_prefix = "http://developers.cbagroup.com:4040"
+        conn.url_prefix = 'http://developers.cbagroup.com:4040'
         conn.request :json
-        conn.response :json, content_type: "application/json"
+        conn.response :json, content_type: 'application/json'
         conn.adapter adapter
       end
     end

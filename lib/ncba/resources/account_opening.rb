@@ -4,7 +4,7 @@
 module Ncba
   # Account opening
   class AccountOpening < Resource
-    PATH = "/api/AccountOpening"
+    PATH = '/api/AccountOpening'
     def call
       post_request(url: PATH, body: body).body
     end

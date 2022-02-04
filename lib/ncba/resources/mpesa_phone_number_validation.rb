@@ -3,7 +3,7 @@
 module Ncba
   # MpesaPhoneNumberValidation
   class MpesaPhoneNumberValidation < Resource
-    PATH = "/api/MpesaPhoneNumberValidation"
+    PATH = '/api/MpesaPhoneNumberValidation'
 
     def call
       post_request(url: PATH, body: body).body
