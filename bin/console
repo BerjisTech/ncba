@@ -12,8 +12,8 @@ require 'ncba'
 # Pry.start
 
 client = Ncba::Client.new(
-  api_user: ENV['API_USER'],
-  api_key: ENV['API_KEY']
+  api_user: "username",
+  api_key: "ke123"
 )
 
 require 'irb'
