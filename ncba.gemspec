@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['info@berjis.tech']
 
   spec.summary       = 'NCBA OPEN BANKING API'
-  spec.description   = 'The NCBA gem is a wrapper that helps developers interface with the official [NCBA OPEN BANKING API](http://developers.cbagroup.com:4040/home).'
+  spec.description   = 'The NCBA gem is a wrapper that helps developers interface with the official NCBA OPEN BANKING API http://developers.cbagroup.com:4040/home.'
   spec.homepage      = 'https://github.com/BerjisTech/ncba'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
