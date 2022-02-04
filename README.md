@@ -11,17 +11,21 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'ncba'
 ```
+or install unstable version from git
+```ruby
+gem 'ncba', git: 'git@github.com:BerjisTech/ncba.git', branch: 'main'
+```
 
 And then execute:
 
 ```
-    $ bundle install
+$ bundle install
 ```
 
 Or install it yourself as:
 
 ```
-    $ gem install ncba
+$ gem install ncba
 ```
 
 ## Usage
