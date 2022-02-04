@@ -34,13 +34,13 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
 
-  spec.add_development_dependency 'bundler', '~> 2.1', '>= 2.1.4'
-  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
 
-  spec.add_runtime_dependency 'activesupport', '~> 5.0', '>= 5.0.0'
-  spec.add_runtime_dependency 'faraday', '~> 1.1'
-  spec.add_runtime_dependency 'faraday_middleware', '~> 1.1'
-  spec.add_runtime_dependency 'openssl', '~> 2.1'
+  spec.add_runtime_dependency 'activesupport'
+  spec.add_runtime_dependency 'faraday'
+  spec.add_runtime_dependency 'faraday_middleware'
+  spec.add_runtime_dependency 'openssl'
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
