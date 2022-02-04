@@ -169,7 +169,6 @@ We follow the [GitHub Flow](https://guides.github.com/introduction/flow/index.ht
 1. Create a pull request. This will serve as the central location for implementation discussion and code reviews. Assign it to yourself and label as "In Progress".
 1. Commit and push your changes: `git commit -am '[#10] added a feature'`
   + Please [write a good commit message](https://github.com/torvalds/subsurface/blob/f019f9453f93878f133cf9be1f480ce114ee2d1b/README#L87)
-1. Once satisfied, get another developer to review the changes by assigning the PR to them and changing the label to "Needs Review". Once changes are approved and all tests/cops pass, merge to `main` and [deploy to Heroku](https://github.com/skyverge/shopstorm-app/wiki/Deploying%20to%20Heroku).
 
 We assume that `main` is always deploy-ready.
 
