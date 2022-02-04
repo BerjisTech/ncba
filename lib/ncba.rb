@@ -10,7 +10,6 @@ module Ncba
   autoload :Client, "ncba/client"
   autoload :Object, "ncba/object"
   autoload :Resource, "ncba/resource"
-  autoload :SecurityCred, "ncba/securitycred"
 
   autoload :AccountOpening, "ncba/resources/account_opening"
   autoload :CreditDetails, "ncba/resources/credit_details"
