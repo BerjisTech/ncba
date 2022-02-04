@@ -45,8 +45,8 @@ NCBA accepts almost all variables as string except for `amount` which is float.
 ncba_client.account_opening(
     uid: "",
     customer_category: "",
-    business_name: "",
-    prefered_name: "",
+    business_name: "", # Official business name eg Business Technologies PVT LTD
+    prefered_name: "", # Business operations name/alias ege Business Tech
     street: "",
     town_country: "",
     country: "",
@@ -55,15 +55,15 @@ ncba_client.account_opening(
     nationality: "",
     email: "",
     emergency_email: "",
-    phone_number: "",
+    phone_number: "", # Include country code eg 254XXXXXX
     building: "",
-    website: "",
-    bank_name: "",
-    branch: "",
+    website: "", # Include http:// or https://
+    bank_name: "", # Check with NCBA for official bacnk codes
+    branch: "", # Check with NCBA for official branch codes
     account_number: "",
     bank_account_name: "",
     account_currency: "",
-    cba_account: "",
+    cba_account: "", # MUST be an NCBA account not LOOP
     bank_code: "",
     swift_code: "",
     business_phone_number: "",
@@ -82,7 +82,7 @@ ncba_client.account_opening(
     stakeholder_country: "",
     stakeholder_id_type: "",
     stakeholder_id_number: "",
-    brn: ""
+    brn: "" # Business registration number - Must be in same format as provided by the government
 )
 ```
 
@@ -137,7 +137,7 @@ ncba_client.credit_transfer(
 
 ```ruby
 ncba_client.mpesa_phone_number_validation(
-    mobile_number: "",
+    mobile_number: "", # Accepts 07XXX or +2547XXX
     reference: ""
 )
 ```
