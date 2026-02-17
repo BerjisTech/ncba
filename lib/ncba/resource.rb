@@ -1,38 +1,51 @@
 # frozen_string_literal: true
 
 module Ncba
-  # Resource
   class Resource
     attr_reader :client, :args
 
     def initialize(client, args = {})
       @client = client
       @args = args
-      @headers = { 'ApiKey': client.api_key, 'APIUser': client.api_user }
     end
 
-    def get_request(url:, params: {}, headers: {})
-      handle_response client.connection.get(url, params, @headers)
+    def get_request(url:, params: {})
+      handle_response client.connection.get(url, params, auth_headers)
     end
 
-    def post_request(url:, body: {}, headers: {})
-      handle_response client.connection.post(url, body, @headers)
+    def post_request(url:, body: {})
+      handle_response client.connection.post(url, body, auth_headers)
+    end
+
+    private
+
+    def auth_headers
+      { 'Authorization' => "Bearer #{client.token}" }
     end
 
     def handle_response(response)
-      # case response.status
-      # when 400
-      #   raise Error, "Your request was malformed. #{response.body["errorMessage"]}"
-      # when 401
-      #   raise Error, "You did not supply valid authentication credentials. #{response.body["errorMessage"]}"
-      # when 403
-      #   raise Error, "You are not allowed to perform that action. #{response.body["errorMessage"]}"
-      # when 404
-      #   raise Error, "No results were found for your request. #{response.body["errorMessage"]}"
-      # when 500
-      #   raise Error, "Something wrong happened. #{response.body["errorMessage"]}"
-      # end
-      response
+      case response.status
+      when 200, 201
+        response.body
+      when 400
+        raise BadRequestError, error_message(response)
+      when 401
+        raise AuthenticationError, error_message(response)
+      when 403
+        raise ForbiddenError, error_message(response)
+      when 404
+        raise NotFoundError, error_message(response)
+      when 500..599
+        raise ServerError, error_message(response)
+      else
+        raise Error, error_message(response)
+      end
+    end
+
+    def error_message(response)
+      body = response.body
+      message = body.is_a?(Hash) ? (body['message'] || body['errorMessage'] || body.to_s) : body.to_s
+      "HTTP #{response.status}: #{message}"
     end
   end
 end

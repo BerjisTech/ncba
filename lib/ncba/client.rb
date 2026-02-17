@@ -1,51 +1,92 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
 
-# Ncba
 module Ncba
-  # Client
   class Client
-    attr_reader :api_user, :api_key, :adapter
+    attr_reader :api_key, :username, :password, :adapter
+    attr_accessor :token
 
-    def initialize(api_user:, api_key:, adapter: Faraday.default_adapter)
-      @api_key = api_key # ApiKey
-      @api_user = api_user # APIUser
+    def initialize(api_key: nil, username: nil, password: nil, adapter: Faraday.default_adapter)
+      config = Ncba.configuration
+      @api_key = api_key || config.api_key
+      @username = username || config.username
+      @password = password || config.password
       @adapter = adapter
-      @header = {
-        'ApiKey': @api_key,
-        'APIUser': @api_user
-      }
+      @token = nil
     end
 
-    def account_opening(**args)
-      AccountOpening.new(self, args).call
+    def authenticate
+      response = Authentication.new(self).call
+      @token = response['api_token'] || response['apiToken'] || response['token']
+      raise AuthenticationError, 'No token returned from authentication' unless @token
+
+      response
     end
 
-    def credit_details(**args)
-      CreditDetails.new(self, args).call
+    def account_details(**args)
+      ensure_authenticated!
+      AccountDetails.new(self, args).call
     end
 
-    def credit_transfer(**args)
-      CreditTransfer.new(self, args).call
+    def mini_statement(**args)
+      ensure_authenticated!
+      MiniStatement.new(self, args).call
     end
 
-    def mpesa_phone_number_validation(**args)
-      MpesaPhoneNumberValidation.new(self, args).call
+    def account_statement(**args)
+      ensure_authenticated!
+      AccountStatement.new(self, args).call
     end
 
-    def transaction_query(**args)
-      TransactionQuery.new(self, args).call
+    def check_transaction_status(**args)
+      ensure_authenticated!
+      CheckTransactionStatus.new(self, args).call
+    end
+
+    def ift(**args)
+      ensure_authenticated!
+      Ift.new(self, args).call
+    end
+
+    def eft(**args)
+      ensure_authenticated!
+      Eft.new(self, args).call
+    end
+
+    def rtgs(**args)
+      ensure_authenticated!
+      Rtgs.new(self, args).call
+    end
+
+    def pesalink(**args)
+      ensure_authenticated!
+      Pesalink.new(self, args).call
+    end
+
+    def kplc_postpaid_validation(**args)
+      ensure_authenticated!
+      KplcPostpaidValidation.new(self, args).call
+    end
+
+    def kplc_postpaid(**args)
+      ensure_authenticated!
+      KplcPostpaid.new(self, args).call
     end
 
     def connection
       @connection ||= Faraday.new do |conn|
-        conn.url_prefix = 'http://developers.cbagroup.com:4040'
+        conn.url_prefix = Ncba.configuration.base_url
         conn.request :json
-        conn.response :json, content_type: 'application/json'
+        conn.response :json, content_type: /\bjson$/
         conn.adapter adapter
       end
+    end
+
+    private
+
+    def ensure_authenticated!
+      raise AuthenticationError, 'Not authenticated. Call client.authenticate first.' unless token
     end
   end
 end

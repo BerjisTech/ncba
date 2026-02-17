@@ -1,181 +1,174 @@
-# Ncba API
+# NCBA
 
-The NCBA gem is a wrapper that helps developers interface with the official [NCBA OPEN BANKING API](http://developers.cbagroup.com:4040/home). 
-
-<!-- Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ncba` . To experiment with that code, run `bin/console` for an interactive prompt. -->
+Ruby client for the NCBA Open Banking API. Supports token-based authentication, account queries, fund transfers (IFT, EFT, RTGS, Pesalink), and bill payments.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add to your Gemfile:
 
 ```ruby
 gem 'ncba'
 ```
-or install unstable version from git
-```ruby
-gem 'ncba', git: 'git@github.com:BerjisTech/ncba.git', branch: 'main'
-```
 
-And then execute:
+Then run:
 
 ```
 $ bundle install
 ```
 
-Or install it yourself as:
+Or install directly:
 
 ```
 $ gem install ncba
 ```
 
+## Configuration
+
+```ruby
+Ncba.configure do |config|
+  config.api_key = 'your_api_key'
+  config.username = 'your_username'
+  config.password = 'your_password'
+  config.environment = :sandbox # or :production
+end
+```
+
 ## Usage
 
+### Initialize and authenticate
+
 ```ruby
-ncba_client = client = Ncba::Client.new(
-  api_user: "your_user_name",
-  api_key: "your_api_key"
+client = Ncba::Client.new
+client.authenticate
+```
+
+You can also pass credentials directly:
+
+```ruby
+client = Ncba::Client.new(
+  api_key: 'your_api_key',
+  username: 'your_username',
+  password: 'your_password'
+)
+client.authenticate
+```
+
+### Account queries
+
+```ruby
+# Account balance/details
+client.account_details(account_number: '1234567890')
+
+# Mini statement
+client.mini_statement(account_number: '1234567890')
+
+# Full statement by date range
+client.account_statement(
+  account_number: '1234567890',
+  start_date: '2025-01-01',
+  end_date: '2025-01-31'
 )
 ```
 
-NCBA accepts almost all variables as string except for `amount` which is float.
-
-## Ncba:: Client:: AccountOpening
+### Transaction status
 
 ```ruby
-ncba_client.account_opening(
-    uid: "",
-    customer_category: "",
-    business_name: "", # Official business name eg Business Technologies PVT LTD
-    prefered_name: "", # Business operations name/alias ege Business Tech
-    street: "",
-    town_country: "",
-    country: "",
-    sector: "",
-    industry: "",
-    nationality: "",
-    email: "",
-    emergency_email: "",
-    phone_number: "", # Include country code eg 254XXXXXX
-    building: "",
-    website: "", # Include http:// or https://
-    bank_name: "", # Check with NCBA for official bacnk codes
-    branch: "", # Check with NCBA for official branch codes
-    account_number: "",
-    bank_account_name: "",
-    account_currency: "",
-    cba_account: "", # MUST be an NCBA account not LOOP
-    bank_code: "",
-    swift_code: "",
-    business_phone_number: "",
-    postal_code: "",
-    postal_address: "",
-    stakeholder_director_shareholder: "",
-    stakeholder_surname: "",
-    stakeholder_forename: "",
-    stakeholder_salutation: "",
-    stakeholder_gender: "",
-    stakeholder_email: "",
-    stakeholder_phone: "",
-    stakeholder_postal_address: "",
-    stakeholder_town: "",
-    stakeholder_postal_code: "",
-    stakeholder_country: "",
-    stakeholder_id_type: "",
-    stakeholder_id_number: "",
-    brn: "" # Business registration number - Must be in same format as provided by the government
+client.check_transaction_status(reference_number: 'REF001')
+```
+
+### Fund transfers
+
+```ruby
+# Internal Fund Transfer (NCBA-to-NCBA)
+client.ift(
+  source_account: '1111111111',
+  destination_account: '2222222222',
+  amount: 1000,
+  currency: 'KES',
+  narration: 'Payment for services',
+  reference: 'IFT-001'
+)
+
+# External Fund Transfer
+client.eft(
+  source_account: '1111111111',
+  destination_account: '3333333333',
+  destination_bank_code: '01',
+  beneficiary_name: 'John Doe',
+  amount: 5000,
+  currency: 'KES',
+  narration: 'Supplier payment',
+  reference: 'EFT-001'
+)
+
+# RTGS (Real-Time Gross Settlement)
+client.rtgs(
+  source_account: '1111111111',
+  destination_account: '4444444444',
+  destination_bank_code: '02',
+  beneficiary_name: 'Jane Smith',
+  amount: 500_000,
+  currency: 'KES',
+  narration: 'Large transfer',
+  reference: 'RTGS-001'
+)
+
+# Pesalink
+client.pesalink(
+  source_account: '1111111111',
+  destination_account: '5555555555',
+  destination_bank_code: '404',
+  beneficiary_name: 'Bob Kamau',
+  amount: 2000,
+  currency: 'KES',
+  narration: 'Pesalink transfer',
+  reference: 'PL-001'
 )
 ```
 
-## Ncba:: Client:: CreditDetails
+### Bill payments
 
 ```ruby
-ncba_client.credit_details(
-    bizpawa_id: "",
-    turnover_ratio: "",
-    saas_payment_rate: "",
-    payment_mode_rate: "",
-    predictive_analysis: "",
-    prev_loan_repayment_rate: "",
-    pre_existing_cba_account: "",
-    customer_bizpawa_age: "",
-    inventory_turnover: "",
-    director_listed_crb: "",
-    business_listed_crb: "",
-    bank_code: ""
+# KPLC postpaid validation
+client.kplc_postpaid_validation(meter_number: 'MTR001')
+
+# KPLC postpaid payment
+client.kplc_postpaid(
+  source_account: '1111111111',
+  meter_number: 'MTR001',
+  amount: 3000,
+  reference: 'KPLC-001'
 )
 ```
 
-## Ncba:: Client:: CreditTransfer
+### Error handling
 
 ```ruby
-ncba_client.credit_transfer(
-    bank_code: '', # Bank Code (For ALL MWallets use 99), (For MPesa use 16 if RTGS), (For Pesalink 404)
-      bank_swift_code: '',
-      branch_code: '', # Branch code ( For ALL Mwallets use 002 )
-      beneficiary_account_name: '',
-      country: 'Kenya', # Kenya, Uganda, Tanzania (Case Sensitive)
-      transaction_type: '', # Internal, Eft, RTGS, Pesalink, Mpesa, HalotelTz, AirtelTz, ZantelTz, TigoTz, VodacomTz
-      reference: '',
-      currency: '', # KES, TZS, UGX
-      account: '', # 254XXXXXX (or your country code) for mobile, account number if bank
-      amount: '',
-      narration: '',
-      transaction_date: '',
-      validation_id: '', # Validation from mpesa_verification
-      sender_name: '',
-      purpose_of_payment: '',
-      sender_principle_activity: '',
-      sender_address: '',
-      receiver_address: '',
-      receiver_id: '',
-      sender_id: '',
-      beneficiary_name: ''
-)
+begin
+  client.account_details(account_number: '123')
+rescue Ncba::AuthenticationError => e
+  puts "Auth failed: #{e.message}"
+rescue Ncba::BadRequestError => e
+  puts "Bad request: #{e.message}"
+rescue Ncba::NotFoundError => e
+  puts "Not found: #{e.message}"
+rescue Ncba::ServerError => e
+  puts "Server error: #{e.message}"
+rescue Ncba::Error => e
+  puts "NCBA error: #{e.message}"
+end
 ```
 
-## Ncba:: Client:: MpesaPhoneNumberValidation
+## Development
 
-```ruby
-ncba_client.mpesa_phone_number_validation(
-    mobile_number: "", # Accepts 07XXX or +2547XXX
-    reference: ""
-)
-```
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rake` to run tests and linting.
 
-## Ncba:: Client:: TransactionQuery
-
-```ruby
-ncba_client.transaction_query(
-    country: "",
-    reference_number: ""
-)
-```
-
-<!-- ## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install` . To release a new version, update the version number in `version.rb` , and then run `bundle exec rake release` , which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org). -->
+You can also run `bin/console` for an interactive prompt.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/berjistech/ncba. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/berjistech/ncba/blob/main/CODE_OF_CONDUCT.md).
-
-We follow the [GitHub Flow](https://guides.github.com/introduction/flow/index.html) model:
-
-1. Check out this repo
-1. Create your branch with a descriptive name, prefixed with the associated issue number (if any): `git checkout -b 10-branch-name`
-1. Push the branch: `git push origin 10-branch-name`
-1. Create a pull request. This will serve as the central location for implementation discussion and code reviews. Assign it to yourself and label as "In Progress".
-1. Commit and push your changes: `git commit -am '[#10] added a feature'`
-  + Please [write a good commit message](https://github.com/torvalds/subsurface/blob/f019f9453f93878f133cf9be1f480ce114ee2d1b/README#L87)
-
-We assume that `main` is always deploy-ready.
+Bug reports and pull requests are welcome on GitHub at https://github.com/BerjisTech/ncba.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Ncba project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/berjistech/ncba/blob/main/CODE_OF_CONDUCT.md).
