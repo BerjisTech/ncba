@@ -1,21 +1,33 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 module Ncba
-  # Object
   class Object
-    def initialize(attributes)
-      @attributes = OpenStruct.new(attributes)
+    attr_reader :attributes
+
+    def initialize(attributes = {})
+      @attributes = attributes
     end
 
-    def method_missing(method, *args, &block)
-      attribute = @attributes.send(method, *args, &block)
-      attribute.is_a?(Hash) ? Object.new(attribute) : attribute
+    def method_missing(method, *, &)
+      key = method.to_s
+      if attributes.key?(key)
+        value = attributes[key]
+        value.is_a?(Hash) ? Object.new(value) : value
+      else
+        super
+      end
     end
 
-    def respond_to_missing?(_method, _include_private = false)
-      true
+    def respond_to_missing?(method, include_private = false)
+      attributes.key?(method.to_s) || super
+    end
+
+    def [](key)
+      attributes[key.to_s]
+    end
+
+    def to_h
+      attributes
     end
   end
 end

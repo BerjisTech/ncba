@@ -2,20 +2,44 @@
 
 require_relative 'ncba/version'
 
-# Ncba
 module Ncba
   class Error < StandardError; end
+  class AuthenticationError < Error; end
+  class BadRequestError < Error; end
+  class ForbiddenError < Error; end
+  class NotFoundError < Error; end
+  class ServerError < Error; end
 
-  autoload :Error, 'ncba/error'
   autoload :Client, 'ncba/client'
+  autoload :Configuration, 'ncba/configuration'
   autoload :Object, 'ncba/object'
   autoload :Resource, 'ncba/resource'
 
-  autoload :AccountOpening, 'ncba/resources/account_opening'
-  autoload :CreditDetails, 'ncba/resources/credit_details'
-  autoload :CreditTransfer, 'ncba/resources/credit_transfer'
-  autoload :MpesaPhoneNumberValidation, 'ncba/resources/mpesa_phone_number_validation'
-  autoload :TransactionQuery, 'ncba/resources/transaction_query'
+  autoload :Authentication, 'ncba/resources/authentication'
+  autoload :AccountDetails, 'ncba/resources/account_details'
+  autoload :MiniStatement, 'ncba/resources/mini_statement'
+  autoload :AccountStatement, 'ncba/resources/account_statement'
+  autoload :CheckTransactionStatus, 'ncba/resources/check_transaction_status'
+  autoload :Ift, 'ncba/resources/ift'
+  autoload :Eft, 'ncba/resources/eft'
+  autoload :Rtgs, 'ncba/resources/rtgs'
+  autoload :Pesalink, 'ncba/resources/pesalink'
+  autoload :KplcPostpaidValidation, 'ncba/resources/kplc_postpaid_validation'
+  autoload :KplcPostpaid, 'ncba/resources/kplc_postpaid'
 
-  autoload :Instance, 'ncba/objects/instace'
+  autoload :Instance, 'ncba/objects/instance'
+
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield(configuration)
+    end
+
+    def reset_configuration!
+      @configuration = Configuration.new
+    end
+  end
 end
